@@ -44,45 +44,41 @@
             margin: 0;
             padding: 0;
             font-family: system-ui, -apple-system, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* Vista Móvil (Pantalla Completa) */
-        body {
-            background-color: var(--bg-calc); /* Fondo unificado */
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-            min-height: 100dvh;
+        /* BLOQUEO TOTAL DE SCROLL PARA APP MÓVIL NATIVER */
+        html, body {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden !important;
+            overscroll-behavior: none;
+            background-color: var(--bg-calc);
             color: var(--text-main);
             transition: background-color 0.3s;
-            overflow: hidden;
         }
 
         .calculadora {
             background-color: var(--bg-calc);
             width: 100%;
-            height: 100vh;
-            height: 100dvh;
+            height: 100%;
             max-width: 480px;
-            padding: 24px 20px 32px 20px;
+            margin: 0 auto;
+            padding: 16px 16px 24px 16px;
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
             position: relative;
+            overflow: hidden;
         }
 
-        /* Vista PC/Tablet (Tarjeta Flotante) */
+        /* En PC o Tablet vuelve a ser tarjeta flotante */
         @media (min-width: 481px) {
-            body {
-                background-color: var(--bg-app);
-                align-items: center;
-            }
-            .calculadora {
-                height: auto;
-                min-height: 600px;
-                border-radius: 32px;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            }
+            html, body { position: static; overflow: auto !important; background-color: var(--bg-app); display: flex; justify-content: center; align-items: center; }
+            .calculadora { height: 650px; border-radius: 32px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         }
 
         /* Barra Superior */
@@ -90,9 +86,10 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-bottom: 10px;
-            position: relative;
+            padding-bottom: 8px;
+            flex-shrink: 0;
             width: 100%;
+            z-index: 10;
         }
 
         .icon-btn {
@@ -105,9 +102,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: background 0.2s, color 0.2s;
             touch-action: manipulation;
-            -webkit-tap-highlight-color: transparent;
         }
 
         .icon-btn:active { background: var(--btn-num); color: var(--text-main); }
@@ -116,17 +111,15 @@
             background: var(--btn-num);
             color: var(--text-main);
             border: none;
-            font-size: 1.05rem;
+            font-size: 1rem;
             font-weight: 500;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 6px;
-            padding: 10px 18px;
+            padding: 8px 16px;
             border-radius: 20px;
-            transition: background 0.2s;
             touch-action: manipulation;
-            -webkit-tap-highlight-color: transparent;
         }
 
         .btn-func-toggle:active { background-color: var(--btn-num-hover); }
@@ -134,11 +127,11 @@
         /* Menú Desplegable */
         .dropdown {
             position: absolute;
-            top: 55px;
+            top: 50px;
             right: 0;
             background-color: var(--bg-dropdown);
             border-radius: 16px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.6);
             overflow: hidden;
             width: 220px;
             z-index: 100;
@@ -146,11 +139,7 @@
             flex-direction: column;
         }
 
-        body.light-theme .dropdown {
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-            border: 1px solid #eee;
-        }
-
+        body.light-theme .dropdown { box-shadow: 0 8px 20px rgba(0,0,0,0.1); border: 1px solid #eee; }
         .dropdown.show { display: flex; }
 
         .dropdown button {
@@ -161,31 +150,29 @@
             text-align: left;
             font-size: 1rem;
             cursor: pointer;
-            border-radius: 0;
-            height: auto;
             border-bottom: 1px solid rgba(128,128,128,0.1);
             touch-action: manipulation;
-            -webkit-tap-highlight-color: transparent;
         }
 
         .dropdown button:last-child { border-bottom: none; }
         .dropdown button:active { background-color: var(--btn-num-hover); }
 
-        /* Pantalla */
+        /* Pantalla Elástica */
         .pantalla {
             background-color: transparent;
-            flex-grow: 1;
+            flex: 1 1 auto;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             align-items: flex-end;
-            padding: 10px 5px 20px 5px;
-            gap: 8px;
+            padding: 8px 4px 12px 4px;
+            min-height: 80px;
+            overflow: hidden;
         }
 
         .operacion-actual {
             color: var(--text-main);
-            font-size: 4rem;
+            font-size: 3.8rem;
             font-weight: 400;
             word-wrap: break-word;
             word-break: break-all;
@@ -196,30 +183,36 @@
             transition: font-size 0.2s;
         }
 
-        .operacion-actual.font-small { font-size: 3rem; }
-        .operacion-actual.font-medium { font-size: 4rem; }
-        .operacion-actual.font-large { font-size: 5rem; }
+        .operacion-actual.font-small { font-size: 2.8rem; }
+        .operacion-actual.font-medium { font-size: 3.8rem; }
+        .operacion-actual.font-large { font-size: 4.6rem; }
 
         .calculo-parcial {
             color: var(--text-muted);
-            font-size: 1.8rem;
-            min-height: 36px;
+            font-size: 1.6rem;
+            min-height: 32px;
             text-align: right;
             width: 100%;
         }
 
-        /* Teclados */
+        /* Contenedor Teclados Elástico */
         .teclados-contenedor {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            margin-top: auto;
+            gap: 10px;
+            flex: 0 0 auto;
+            height: 62%; /* Ocupa el 62% de la pantalla automáticamente */
+            max-height: 440px;
+            width: 100%;
         }
 
         .teclado {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
+            grid-template-rows: repeat(5, minmax(0, 1fr)); /* 5 filas elásticas iguales */
+            gap: 10px;
+            height: 100%;
+            width: 100%;
         }
 
         .teclado-cientifico {
@@ -227,11 +220,13 @@
             overflow: hidden;
             opacity: 0;
             transition: max-height 0.3s ease, opacity 0.3s ease;
+            grid-template-rows: repeat(3, minmax(0, 1fr));
         }
 
         .teclado-cientifico.abierto {
-            max-height: 300px;
+            max-height: 180px;
             opacity: 1;
+            margin-bottom: 4px;
         }
 
         .teclado button {
@@ -240,19 +235,19 @@
             outline: none;
             background-color: var(--btn-num);
             color: var(--text-main);
-            font-size: 1.8rem;
-            height: 75px;
-            border-radius: 38px;
+            font-size: 1.6rem;
+            height: 100%; /* Se adapta a la celda de la grilla */
+            min-height: 48px;
+            border-radius: 28px;
             transition: background-color 0.1s, transform 0.1s;
             display: flex;
             justify-content: center;
             align-items: center;
             user-select: none;
             touch-action: manipulation; 
-            -webkit-tap-highlight-color: transparent; 
         }
 
-        .teclado button:active { transform: scale(0.90); }
+        .teclado button:active { transform: scale(0.92); }
         .teclado button:hover { background-color: var(--btn-num-hover); }
 
         .btn-op {
@@ -294,7 +289,7 @@
             max-width: 480px;
             border-radius: 24px 24px 0 0;
             padding: 24px;
-            max-height: 85vh;
+            max-height: 80vh;
             display: flex;
             flex-direction: column;
             box-shadow: 0 -10px 40px rgba(0,0,0,0.6);
@@ -306,7 +301,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             color: var(--text-main);
             font-size: 1.2rem;
             font-weight: bold;
@@ -319,7 +314,6 @@
             cursor: pointer;
             padding: 8px;
             touch-action: manipulation;
-            -webkit-tap-highlight-color: transparent;
         }
 
         .historial-lista {
@@ -327,6 +321,7 @@
             display: flex;
             flex-direction: column;
             gap: 16px;
+            max-height: 60vh;
         }
 
         .historial-item {
@@ -335,8 +330,8 @@
             padding-bottom: 12px;
         }
 
-        .hist-expr { color: var(--text-muted); font-size: 1.2rem; margin-bottom: 4px; }
-        .hist-res { color: var(--color-primary); font-size: 2rem; font-weight: bold; }
+        .hist-expr { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 4px; }
+        .hist-res { color: var(--color-primary); font-size: 1.8rem; font-weight: bold; }
 
         .tarjeta-contacto {
             background-color: #1e1929;
@@ -351,17 +346,17 @@
 
         .avatar-box {
             background-color: #8c52ff;
-            width: 64px; height: 64px;
+            width: 60px; height: 60px;
             border-radius: 16px;
             display: flex; justify-content: center; align-items: center;
             font-size: 2rem; margin-bottom: 12px;
         }
 
-        .contacto-nombre { color: var(--text-main); font-size: 1.5rem; font-weight: bold; }
-        .contacto-rol { color: #b58cff; font-size: 1.1rem; font-weight: 500; }
+        .contacto-nombre { color: var(--text-main); font-size: 1.4rem; font-weight: bold; }
+        .contacto-rol { color: #b58cff; font-size: 1rem; font-weight: 500; }
         .contacto-email {
             color: var(--text-muted);
-            font-size: 1rem;
+            font-size: 0.95rem;
             display: flex; align-items: center; gap: 8px; margin-top: 8px;
         }
     </style>
@@ -369,9 +364,10 @@
 <body>
 
     <div class="calculadora">
+        <!-- Barra Superior -->
         <div class="header-top">
             <button class="icon-btn" onclick="abrirHistorial()" title="Historial">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="pointer-events: none;"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="pointer-events: none;"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             </button>
             
             <button class="btn-func-toggle" onclick="toggleCientifico()">
@@ -380,7 +376,7 @@
             </button>
 
             <button class="icon-btn" onclick="toggleMenu(event)" title="Opciones">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" style="pointer-events: none;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="pointer-events: none;">
                     <circle cx="12" cy="5" r="2.5"></circle>
                     <circle cx="12" cy="12" r="2.5"></circle>
                     <circle cx="12" cy="19" r="2.5"></circle>
@@ -395,11 +391,13 @@
             </div>
         </div>
 
+        <!-- Pantalla de la Calculadora -->
         <div class="pantalla">
             <div class="operacion-actual font-medium" id="display-actual">0</div>
             <div class="calculo-parcial" id="display-parcial"></div>
         </div>
 
+        <!-- Teclados -->
         <div class="teclados-contenedor">
             <div class="teclado teclado-cientifico" id="teclado-cientifico">
                 <button class="btn-op" onclick="addFunc('√(')">√</button>
@@ -442,19 +440,20 @@
                 <button onclick="addNum('0')">0</button>
                 <button onclick="addNum('.')">,</button>
                 <button class="btn-del" onclick="borrar()">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="pointer-events: none;"><path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path><line x1="18" y1="9" x2="12" y2="15"></line><line x1="12" y1="9" x2="18" y2="15"></line></svg>
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="pointer-events: none;"><path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path><line x1="18" y1="9" x2="12" y2="15"></line><line x1="12" y1="9" x2="18" y2="15"></line></svg>
                 </button>
                 <button class="btn-eq" onclick="calcular()">=</button>
             </div>
         </div>
     </div>
 
+    <!-- Modales de la Aplicación -->
     <div class="modal-overlay" id="modal-historial" onclick="cerrarModales(event)">
         <div class="modal-content">
             <div class="modal-header">
                 <span>Historial</span>
                 <button class="close-modal" onclick="cerrarModales(null, true)">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="pointer-events: none;"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="pointer-events: none;"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                 </button>
             </div>
             <div class="historial-lista" id="lista-historial">
@@ -468,7 +467,7 @@
             <div class="modal-header" style="margin-bottom: 10px;">
                 <span>Acerca de</span>
                 <button class="close-modal" onclick="cerrarModales(null, true)">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="pointer-events: none;"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="pointer-events: none;"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                 </button>
             </div>
             <div class="tarjeta-contacto">
@@ -476,13 +475,14 @@
                 <div class="contacto-nombre">Fernando Navarro</div>
                 <div class="contacto-rol">Desarrollador</div>
                 <div class="contacto-email">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px; pointer-events: none;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px; pointer-events: none;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                     fernandonavarro8700@gmail.com
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Script Principal -->
     <script>
         const displayActual = document.getElementById('display-actual');
         const displayParcial = document.getElementById('display-parcial');
@@ -759,10 +759,3 @@
     </script>
 </body>
 </html>
-/* Elimina o comenta esto, ya que Cordova gestiona los recursos localmente:
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js');
-    });
-}
-*/
