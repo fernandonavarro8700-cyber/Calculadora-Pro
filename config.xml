@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.fnavarro.calculadora" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Calculadora Pro</name>
-    <description>
-        Una calculadora científica y estándar rápida, moderna y respetuosa con la privacidad.
-    </description>
-    <author email="fernandonavarro8700@gmail.com" href="https://tudominio-o-git.com">
-        Fernando Navarro
-    </author>
+    <description>Una calculadora rápida, moderna y privada.</description>
+    <author email="fernandonavarro8700@gmail.com">Fernando Navarro</author>
     <content src="index.html" />
-    <access origin="none" /> <!-- Restringe conexiones externas (100% offline y privado) -->
+    <access origin="none" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
+    
+    <!-- Agregado para el ícono y pantalla completa -->
+    <preference name="Fullscreen" value="true" />
+    <icon src="res/icon.png" />
 </widget>

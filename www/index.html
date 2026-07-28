@@ -75,8 +75,8 @@
             overflow: hidden;
         }
 
-        /* En PC o Tablet vuelve a ser tarjeta flotante */
-        @media (min-width: 481px) {
+        /* Vista PC/Tablet (Tarjeta Flotante) */
+@media (min-width: 768px) {
             html, body { position: static; overflow: auto !important; background-color: var(--bg-app); display: flex; justify-content: center; align-items: center; }
             .calculadora { height: 650px; border-radius: 32px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         }
